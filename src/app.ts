@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import http from "http";
 import io from "socket.io";
+import cors from "cors"
 
 
 import Routes from "./lib/routes"
