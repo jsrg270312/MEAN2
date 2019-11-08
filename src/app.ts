@@ -5,8 +5,9 @@ import io from "socket.io";
 
 
 import Routes from "./lib/routes"
-
 import { Server as Main } from "./interfaces/"
+import {Connect} from "./config/"
+
 const app = express(),
     server = new http.Server(app),
     host = "localhost"
@@ -32,7 +33,7 @@ class Server {
     }
 
     initDB() { 
-
+        new Connect("mongodb+srv://sebastianReyes:sebastianReyes@cluster0-dq7zr.mongodb.net/test?retryWrites=true&w=majority").connection()
     }
 
     appExecute() { 

@@ -19,10 +19,6 @@ export default class Routes {
         this.app.delete("/v1/mascota/:id", deleteMascota)
     }
 
-    sokcet() { 
-
-     }
-
      routesConfig() {
          this.appRoutes()
      }

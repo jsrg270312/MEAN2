@@ -1,47 +1,72 @@
 import { Request, Response }  from "express"
 import { Mascota, Response as R} from "./clases/"
 import { Mascota as IMascota } from "./../interfaces"
+import { Types } from "mongoose"
+
 
 const getMascota = (req:Request, res:Response): void =>  {
     const mascota = new Mascota(req.body)
-    const data = mascota.getMascota(Number(req.params.id))
-    //const code = (data) ? 200 : 404 
-    const response = new R(data, req.method)
-    //console.log(response.getSatusCode())
-    //res.status(200).json(data || {})
-    console.log(response.data())
-    res.status(response.getStatusCode()).json(response.data())
+    mascota.getMascota(Types.ObjectId(req.params.id))
+    .then((u) => {
+        const response = new R(u, req.method)
+        res.status(response.getStatusCode()).json(response.data())
+    })
+    .catch((e: any) => {
+        console.log("catch")
+        const response = new R(null, req.method, e.errors)
+        res.status(500).json(response.data())
+    })
 }
 const listMascota = (req:Request, res:Response): void =>  { 
-    console.log("listMascota")
-    const mascotas = new Mascota(req.body).ListMascotas()
-    console.log(mascotas)
-    const response = new R (mascotas, req.method)
-
-    console.log(typeof mascotas)
-    res.status(response.getStatusCode()).json(response.data())
+    const mascota = new Mascota(req.body)
+    mascota.getMascota()
+    .then((u) => {
+        const response = new R(u, req.method)
+        res.status(response.getStatusCode()).json(response.data())
+    })
+    .catch((e: any) => {
+        console.log("catch")
+        const response = new R(null, req.method, e.errors)
+        res.status(500).json(response.data())
+    })
 }
 const postMascota = (req:Request, res:Response): void =>  { 
-    console.log("postMascota")
-    const mascota = new Mascota(req.body).postMascota()
-    const response = new R(mascota, req.method)
-    console.log(response)
-    res.status(response.getStatusCode()).json(response.data())
+    const mascota = new Mascota(req.body)
+
+    mascota.postMascota()
+        .then((u: any) => {
+            if(u && u._id){
+                
+                const response = new R (u, req.method)
+                res.status(response.getStatusCode()).json(response.data())
+            }
+        })
+        .catch((e: any) => {
+            console.log("catch")
+            const response = new R(null, req.method, e)
+            res.status(response.getStatusCode()).json(response.data())
+        })
 }
 const updateMascota = (req:Request, res:Response): void =>  { 
-    console.log("updateMascota")
-    const mascota = new Mascota(req.body).updateMascota(Number(req.params.id))
-    const response = new R (mascota, req.method)
-    res.status(response.getStatusCode()).json(response.data())
-
+    const usuario = new Mascota(req.body)
+    usuario.updateMascota(Types.ObjectId(req.params.id))
+    .then((u: any) => {
+        if(u && u._id){
+            const response = new R (u, req.method)
+            res.status(response.getStatusCode()).json(response.data())
+        }
+    })
+    .catch((e: any) => {
+        console.log("catch")
+        const response = new R(null, req.method, e)
+        res.status(response.getStatusCode()).json(response.data())
+    })
 }
 const deleteMascota = (req:Request, res:Response): void =>  { 
-    console.log("deleteMascota")
-    const mascota = new Mascota(req.body).deleteMascota(Number(req.params.id))
-    console.log(mascota)
-    const response = new R (mascota, req.method)
-    res.status(response.getStatusCode()).json(response.data())
-
+    const usuario = new Mascota(req.body)
+    usuario.deleteMascota(Types.ObjectId(req.params.id))
+    .then(u =>  {console.log(u),res.status(200).json({"message":"Mascota eliminada"})})
+    .catch((e: any ) => res.status(200).json({code:500,"message":e.errors}))
 }
 
 export {
