@@ -27,6 +27,7 @@ class Server {
         this.main.app  
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({ extended: true }))
+            .use(cors())
     }
     
     includeRoutes() { 
