@@ -5,6 +5,8 @@ interface Mascota extends Document {
     nombre: string;
     descripcion: string;
     foto: string;
+    precio: number;
+    mascotaType: string;
 }
 
 export{

@@ -8,7 +8,9 @@ const getMascota = (req:Request, res:Response): void =>  {
     const mascota = new Mascota(req.body)
     mascota.getMascota(Types.ObjectId(req.params.id))
     .then((u) => {
+        console.log(u)
         const response = new R(u, req.method)
+        console.log(response)
         res.status(response.getStatusCode()).json(response.data())
     })
     .catch((e: any) => {
@@ -35,6 +37,7 @@ const postMascota = (req:Request, res:Response): void =>  {
 
     mascota.postMascota()
         .then((u: any) => {
+            console.log(u,"esto es mascota")
             if(u && u._id){
                 
                 const response = new R (u, req.method)

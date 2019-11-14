@@ -28,6 +28,20 @@ const mascotaSchema: Schema = new Schema({
         lowercase: true,
         trim: true,
         index: true
+    },
+    precio:{
+        type : Number,
+        reqired: [true, "descripcion requerido"],
+        unique: false,
+        lowercase: true,
+        trim: true,
+        index: true
+    },
+    mascotaType:{
+        type: String,
+        enum: ["terrestre", "marino","volador"],
+        reqired: true,
+        default: "terrestre"
     }
 }) 
 mascotaSchema.plugin(uniqueValidator, {message: "ya existe!"})

@@ -7,6 +7,9 @@ interface iMascotaInput{
   nombre: IMascota["nombre"]
   descripcion : IMascota["descripcion"]
   foto : IMascota["foto"]
+  precio : IMascota["precio"]
+  mascotaType : IMascota["mascotaType"]
+
 }
 
 export default class Mascota { 
@@ -14,14 +17,18 @@ export default class Mascota {
     private nombre: IMascota["nombre"]
     private descripcion: IMascota["descripcion"]
     private foto: IMascota["foto"]
+    private precio: IMascota["precio"]
+    private mascotaType: IMascota["mascotaType"]
     private body : IMascota
 
 
     constructor (body: IMascota) {
-        const {nombre, descripcion, foto} = body
+        const {nombre, descripcion, foto, precio, mascotaType} = body
         this.nombre = nombre
         this.descripcion = descripcion
         this.foto = foto
+        this.precio = precio
+        this.mascotaType = mascotaType
         this.body = body
     }
 
@@ -43,7 +50,9 @@ export default class Mascota {
       const data: iMascotaInput = {
         nombre: this.nombre,
         descripcion: this.descripcion,
-        foto: this.foto
+        foto: this.foto,
+        precio: this.precio,
+        mascotaType: this.mascotaType
       }
       return new Promise((resolve, reject) => {
         this.Save(data)
@@ -59,6 +68,8 @@ export default class Mascota {
             mascota.nombre = this.nombre || mascota.nombre
             mascota.descripcion = this.descripcion || mascota.descripcion
             mascota.foto = this.foto || mascota.foto
+            mascota.precio = this.precio || mascota.precio
+            mascota.mascotaType = this.mascotaType || mascota.mascotaType
             this.Save(mascota)
             .then((newMascota:any) => (newMascota && newMascota._id)? resolve(newMascota): reject({}))
             .catch(e => reject(e))
